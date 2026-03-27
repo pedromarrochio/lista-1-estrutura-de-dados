@@ -22,7 +22,7 @@ public:
     Room(int capacity);
     ~Room();
 
-    void DoReserve();
+    void DoReserve(string course_name, string weekday, int start_hour, int end_hour);
 
     int getCapacity();
     int getQuantRes();
