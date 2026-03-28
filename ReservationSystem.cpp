@@ -7,6 +7,7 @@ Room :: Room(int capacity){
 
     this -> capacity = capacity;
     this -> quant_res = 0;
+    this -> horarios_res = 0;
 
     reservas = new Reserve*[this -> res_max];
 
@@ -34,6 +35,12 @@ int Room :: getQuantRes(){
 
 };
 
+int Room :: getHoraRes(){
+
+    return this -> horarios_res;
+
+}
+
 int Room :: getResMax(){
 
     return 65;
@@ -49,9 +56,24 @@ Reserve ** Room :: getReserves(){
 
 void Room :: DoReserve(string course_name, string weekday, int start_hour, int end_hour){
 
-    this -> quant_res += end_hour - start_hour;
+    this -> horarios_res += end_hour - start_hour;
 
     this -> reservas[this -> quant_res] = new Reserve(course_name,weekday,start_hour, end_hour);
+    
+    this -> quant_res++;
+
+};
+
+void Room :: CancelReserve(int index){
+
+    delete this -> reservas[index];
+
+    for(int i = index; i < (this -> quant_res) - 1; i++)
+        reservas[i] = reservas[i+1];
+
+    this -> quant_res--;
+
+    reservas[this -> quant_res] = nullptr;
 
 };
 
@@ -83,7 +105,7 @@ bool ReservationSystem :: reserve(ReservationRequest request){
 
     for(int i = 0; i < this -> room_count; i++){
 
-        if((salas[i]->getCapacity() >= request.getStudentCount()) && (salas[i]->getQuantRes() < salas[i]->getResMax())){
+        if((salas[i]->getCapacity() >= request.getStudentCount()) && (salas[i]->getHoraRes() < salas[i]->getResMax())){
   
             for(int j = 0; j < salas[i]->getQuantRes(); j++){
 
@@ -108,6 +130,24 @@ bool ReservationSystem :: reserve(ReservationRequest request){
 
 };
 
+bool ReservationSystem :: cancel(string course_name){
+
+    for(int i = 0; i < this -> room_count; i++){
+
+        Reserve ** reservas = salas[i]->getReserves();
+
+        for(int j = 0; j < salas[i]->getQuantRes(); j++){
+
+            if(course_name == reservas[j]->getCourseName()){
+                salas[i]->CancelReserve(j);
+                return true;
+            };
+        };
+    };
+
+    return false;
+
+};
 
 
 
