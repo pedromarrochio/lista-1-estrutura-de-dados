@@ -1,5 +1,6 @@
 #include "ReservationRequest.hpp"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -8,9 +9,16 @@ ReservationRequest :: ReservationRequest(string course_name, string weekday, int
         this -> course_name = course_name;
         this -> weekday = weekday;
         this -> start_hour = start_hour;
-        this -> end_hour = end_hour;
-        this -> student_count = student_count;
 
+        if((start_hour < end_hour) && ( 7 <= start_hour) && (end_hour <= 21)){
+
+            this -> end_hour = end_hour;
+            this -> student_count = student_count;
+            
+        }else{
+
+            cout << "Horários de inicio e final inválidos";
+        };
 };
 
 ReservationRequest :: ~ReservationRequest(){

@@ -15,17 +15,19 @@ private:
     int capacity;
     int quant_res;
     Reserve ** reservas;
-    static const int cap_max = 65;
+    static const int res_max = 65;
 
 public:
 
     Room(int capacity);
     ~Room();
 
-    void DoReserve(string course_name, string weekday, int start_hour, int end_hour);
-
     int getCapacity();
     int getQuantRes();
+    int getResMax();
+    Reserve ** getReserves();
+
+    void DoReserve(string course_name, string weekday, int start_hour, int end_hour);
 
 };
 
