@@ -8,16 +8,15 @@ ReservationRequest :: ReservationRequest(string course_name, string weekday, int
 
         this -> course_name = course_name;
         this -> weekday = weekday;
-        this -> start_hour = start_hour;
+        this -> student_count = student_count;
+        this -> end_hour = 0;
+        this -> start_hour = 0;
 
         if((start_hour < end_hour) && ( 7 <= start_hour) && (end_hour <= 21)){
 
             this -> end_hour = end_hour;
-            this -> student_count = student_count;
+            this -> start_hour = start_hour;
             
-        }else{
-
-            cout << "Horários de inicio e final inválidos";
         };
 };
 

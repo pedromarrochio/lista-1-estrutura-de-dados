@@ -67,6 +67,8 @@ void Room :: DoReserve(string course_name, string weekday, int start_hour, int e
 
 void Room :: CancelReserve(int index){
 
+    this -> horarios_res += reservas[index]->getEndHour() - reservas[index]->getStartHour();
+
     delete this -> reservas[index];
 
     for(int i = index; i < (this -> quant_res) - 1; i++)
@@ -83,7 +85,7 @@ void Room :: CancelReserve(int index){
 ReservationSystem :: ReservationSystem(int room_count, int* room_capacities){
     this -> room_count = room_count;
     this -> room_capacities = room_capacities;
-    this -> working_days = new string[5]{"seg", "ter", "qua", "qui", "sex"};  
+    this -> working_days = new string[5]{"segunda", "terca", "quarta", "quinta", "sexta"};  
     this -> working_days_size = 5;
     salas = new Room*[room_count];
 
@@ -121,11 +123,19 @@ bool ReservationSystem :: is_overlaping(int request_start, int request_end, int 
     }
     return false;
 }
+
 bool ReservationSystem :: reserve(ReservationRequest request){
+
+    if(request.getStartHour() >= request.getEndHour()){
+        return false;
+    }
+
     Room* sala_escolhida;
+
     if(!this -> is_working_day(request.getWeekday())){
         return false;
     }
+
     for(int i = 0; i < this -> room_count; i++){
         Room* sala = salas[i];
 
@@ -178,7 +188,7 @@ bool ReservationSystem :: cancel(string course_name){
 
 void ReservationSystem :: printSchedule(){
     for(int i = 0; i < this -> room_count; i++){
-        cout << "Room " << i + 1 << endl;
+        cout << "\nRoom " << i + 1 << endl;
 
         Reserve** reservas = salas[i]->getReserves();
 
