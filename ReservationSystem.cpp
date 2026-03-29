@@ -1,4 +1,5 @@
 #include "ReservationSystem.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -101,29 +102,41 @@ ReservationSystem :: ~ReservationSystem(){
 };
 
 
+// integrar na classe
+bool is_overlaping(int request_start, int request_end, int scheduled_start, int scheduled_end){
+    if(request_start < scheduled_end && request_start > scheduled_start){
+       return true;
+    } 
+    if(request_end < scheduled_end && request_end > scheduled_start){
+        return true;
+    }
+    return false;
+}
 bool ReservationSystem :: reserve(ReservationRequest request){
-
+    Room* sala_escolhida;
     for(int i = 0; i < this -> room_count; i++){
+        Room* sala = salas[i];
 
-        if((salas[i]->getCapacity() >= request.getStudentCount()) && (salas[i]->getHoraRes() < salas[i]->getResMax())){
-  
-            for(int j = 0; j < salas[i]->getQuantRes(); j++){
+        if((sala->getCapacity() < request.getStudentCount()) || (sala->getHoraRes() >= sala->getResMax())){
+            continue;
+        }
 
-                Reserve** reservas = salas[i]->getReserves();
+        Reserve** reservas = sala->getReserves();
 
-                if(reservas[j]->getWeekday() == request.getWeekday()){
-
-                    if(!((request.getStartHour() >= reservas[j]->getEndHour()) || (request.getEndHour() <= reservas[j]->getStartHour()))){
-                        break;
-
-                    };
-                };
-            };
-
-            salas[i]->DoReserve(request.getCourseName(), request.getWeekday(), request.getStartHour(), request.getEndHour());
-            return true;
-        
+        bool disponivel = true;
+        for(int j = 0; j < sala->getQuantRes(); j++){
+            Reserve* reserva = reservas[j];
+            bool overlaping = is_overlaping(request.getStartHour(), request.getEndHour(), reserva->getStartHour(), reserva->getEndHour());
+            if(reserva->getWeekday() == request.getWeekday() && overlaping){
+                disponivel = false;
+                break;
+            }
         };
+        if (disponivel){
+            sala->DoReserve(request.getCourseName(), request.getWeekday(), request.getStartHour(), request.getEndHour());
+            return true;
+        }
+    
     };
 
     return false;

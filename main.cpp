@@ -26,22 +26,26 @@ using namespace std;
 //  - Esta dando erro para dias diferentes da semana com mesmo horário
 
 int main(){
-  int capacities[] = {2, 11 , 4};
+  int capacities[] = {90};
   // Possível problema no destrutor
-  ReservationSystem system(3, capacities); // checar para passagem de menos capacidades do que de quartos
+  ReservationSystem system(1, capacities); // checar para passagem de menos capacidades do que de quartos
 
-  ReservationRequest request_1("Ed", "seg", 7, 8, 1);
-  ReservationRequest request_2("Paa", "seg", 10, 11, 1);
-  // ReservationRequest request_3("Aln", "terca", 7, 8, 1);
+  ReservationRequest request_1("Ed", "seg", 11, 13, 11);
+  ReservationRequest request_2("Paa", "seg", 12, 14, 11);
+  ReservationRequest request_3("Aln", "seg", 7, 12, 11);
+  ReservationRequest request_4("Prob", "seg", 16, 18, 50);
 
   cout << "Esperado: 1" << endl;
   cout << "Resultado 1a reserva: " << system.reserve(request_1) << endl; 
 
-  cout << "Esperado: 1" << endl;
+  cout << "Esperado: 0" << endl;
   cout << "Resultado 2a reserva: " << system.reserve(request_2) << endl;
 
-  // cout << "Esperado: 1" << endl;
-  // cout << "Resultado 3a reserva: " << system.reserve(request_3) << endl;
+  cout << "Esperado: 0" << endl;
+  cout << "Resultado 3a reserva: " << system.reserve(request_3) << endl;
+
+  cout << "Esperado: 1" << endl;
+  cout << "Resultado 4a reserva: " << system.reserve(request_4) << endl;
  
   cout << "teste insano" << endl;
   return 0;
