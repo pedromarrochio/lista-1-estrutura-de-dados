@@ -17,13 +17,8 @@ using namespace std;
 
 
 // TODO:
-//  - Tratamento de erro para quando não há salas com capacidade suficiente
-//   - Atualmente ele dá seg_fault quando eu tento reservar:
-        // int capacities[] = {2, 11 , 4}; não há 2 salas com 
-        // ReservationRequest request_1("Ed", "seg", 7, 8, 5);
-        // ReservationRequest request_2("Paa", "ter", 9, 10, 5);
-//  - Basicamente qualquer falha em reserva resulta em um seg_fault
-//  - Esta dando erro para dias diferentes da semana com mesmo horário
+//  - consertar destrutor
+//  - print de reservas 
 
 int main(){
   int capacities[] = {90};

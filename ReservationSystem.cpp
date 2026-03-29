@@ -83,7 +83,9 @@ void Room :: CancelReserve(int index){
 ReservationSystem :: ReservationSystem(int room_count, int* room_capacities){
     this -> room_count = room_count;
     this -> room_capacities = room_capacities;
-
+    string days[] = {"seg", "ter", "qua", "qui", "sex"};
+    this -> working_days = days;  
+    this -> working_days_size = 5;
     salas = new Room*[room_count];
 
     for(int i = 0; i < room_count; i++)
@@ -101,9 +103,17 @@ ReservationSystem :: ~ReservationSystem(){
     delete[] this -> salas;
 };
 
+bool ReservationSystem :: is_working_day(string day){
+    for(int i = 0; i < this -> working_days_size; i++){
+        if(day == this -> working_days[i]){
+            return true; 
+        }
+    } 
+    return false;
+}
 
-// integrar na classe
-bool is_overlaping(int request_start, int request_end, int scheduled_start, int scheduled_end){
+
+bool ReservationSystem :: is_overlaping(int request_start, int request_end, int scheduled_start, int scheduled_end){
     if(request_start < scheduled_end && request_start > scheduled_start){
        return true;
     } 
@@ -114,6 +124,9 @@ bool is_overlaping(int request_start, int request_end, int scheduled_start, int 
 }
 bool ReservationSystem :: reserve(ReservationRequest request){
     Room* sala_escolhida;
+    if(!this -> is_working_day(request.getWeekday())){
+        return false;
+    }
     for(int i = 0; i < this -> room_count; i++){
         Room* sala = salas[i];
 

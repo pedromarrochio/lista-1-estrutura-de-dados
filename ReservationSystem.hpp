@@ -40,9 +40,9 @@ private:
     int room_count;
     int* room_capacities;
     Room **salas;
+    string* working_days;
+    int working_days_size;
 
-    // Estruturas internas escolhidas pelos alunos
-    // para armazenar e gerenciar as reservas, os horários, ...
 
 public:
 
@@ -53,9 +53,9 @@ public:
     bool cancel(string course_name);
 
     void printSchedule();
+    bool is_working_day(string day);
+    bool is_overlaping(int request_start, int request_end, int scheduled_start, int scheduled_end);
 
-    // Outros métodos utilitários necessários
-    // para auxiliar nas funções requisitadas
 };
 
 #endif
