@@ -28,7 +28,7 @@ int main(){
   ReservationRequest request_1("Ed", "seg", 11, 13, 11);
   ReservationRequest request_2("Paa", "seg", 12, 14, 11);
   ReservationRequest request_3("Aln", "seg", 7, 12, 11);
-  ReservationRequest request_4("Prob", "seg", 16, 18, 50);
+  ReservationRequest request_4("Prob", "ter", 16, 18, 50);
 
   cout << "Esperado: 1" << endl;
   cout << "Resultado 1a reserva: " << system.reserve(request_1) << endl; 
@@ -41,6 +41,10 @@ int main(){
 
   cout << "Esperado: 1" << endl;
   cout << "Resultado 4a reserva: " << system.reserve(request_4) << endl;
+
+  system.cancel("Ed");
+
+  system.printSchedule();
  
   cout << "teste insano" << endl;
   return 0;

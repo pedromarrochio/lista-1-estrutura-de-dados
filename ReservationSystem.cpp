@@ -83,8 +83,7 @@ void Room :: CancelReserve(int index){
 ReservationSystem :: ReservationSystem(int room_count, int* room_capacities){
     this -> room_count = room_count;
     this -> room_capacities = room_capacities;
-    string days[] = {"seg", "ter", "qua", "qui", "sex"};
-    this -> working_days = days;  
+    this -> working_days = new string[5]{"seg", "ter", "qua", "qui", "sex"};  
     this -> working_days_size = 5;
     salas = new Room*[room_count];
 
@@ -101,6 +100,7 @@ ReservationSystem :: ~ReservationSystem(){
     };
 
     delete[] this -> salas;
+    delete[] this -> working_days;
 };
 
 bool ReservationSystem :: is_working_day(string day){
@@ -176,4 +176,45 @@ bool ReservationSystem :: cancel(string course_name){
 };
 
 
+
+void ReservationSystem :: printSchedule(){
+    for(int i = 0; i < this -> room_count; i++){
+        cout << "Room " << i + 1 << endl;
+
+        Reserve** reservas = salas[i]->getReserves();
+
+        int** horarios;
+
+        for(int k = 0; k < salas[i]->getQuantRes() - 1; k++){
+            for(int j = 0; j < salas[i]->getQuantRes() - 1 - k; j++){
+                if(reservas[j]->getStartHour() > reservas[j+1]->getStartHour()){
+                    swap(reservas[j], reservas[j+1]);
+                }
+            }
+        }
+        for(int d = 0; d < this -> working_days_size; d++){
+            bool temReserva = false;
+
+            // verifica se existe reserva nesse dia
+            for(int k = 0; k < salas[i]->getQuantRes(); k++){
+                if(reservas[k]->getWeekday() == this -> working_days[d]){
+                    temReserva = true;
+                    break;
+                }
+            }
+            if(!temReserva) continue;
+
+            cout << this -> working_days[d] << ":" << endl;
+             for(int k = 0; k < salas[i]->getQuantRes(); k++){
+                if(reservas[k]->getWeekday() == this -> working_days[d]){
+                    cout << reservas[k]->getStartHour() << "h~"
+                         << reservas[k]->getEndHour() << "h: "
+                         << reservas[k]->getCourseName() << endl;
+                }
+            }
+        }
+
+
+   }
+}
 
