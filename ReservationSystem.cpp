@@ -94,7 +94,6 @@ ReservationSystem :: ReservationSystem(int room_count, int* room_capacities){
 ReservationSystem :: ~ReservationSystem(){
 
     for(int i = 0; i < this -> room_count; i++){
-        this -> salas[i]->~Room();
 
         delete this -> salas[i];
     };
