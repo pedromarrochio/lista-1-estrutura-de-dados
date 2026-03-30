@@ -121,6 +121,9 @@ bool ReservationSystem :: is_overlaping(int request_start, int request_end, int 
     if(request_end < scheduled_end && request_end > scheduled_start){
         return true;
     }
+    if(request_start < scheduled_start && request_end > scheduled_end){
+        return true;
+    }
     return false;
 }
 
